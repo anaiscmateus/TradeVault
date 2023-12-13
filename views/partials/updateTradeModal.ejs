@@ -1,0 +1,272 @@
+<!-- updateTradeModal -->
+<div id="updateTradeModal<%= trades[i]._id %>" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+    <div class="relative p-4 w-full max-w-2xl max-h-full">
+        <!-- Modal content -->
+        <div class="mb-4 border-b border-gray-200 dark:border-gray-700">
+            <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" id="default-tab<%= trades[i]._id %>" data-tabs-toggle="#default-tab-content<%= trades[i]._id %>" role="tablist">
+                <li class="me-2" role="presentation">
+                    <button class="inline-block p-4 border-b-2 rounded-t-lg" id="profile-tab<%= trades[i]._id %>" data-tabs-target="#profile<%= trades[i]._id %>" type="button" role="tab" aria-controls="profile" aria-selected="false">Update Position</button>
+                </li>
+                <li class="me-2" role="presentation">
+                    <button class="inline-block p-4 border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300" id="dashboard-tab<%= trades[i]._id %>" data-tabs-target="#dashboard<%= trades[i]._id %>" type="button" role="tab" aria-controls="dashboard" aria-selected="false">Add To Position</button>
+                </li>
+                <li class="me-2" role="presentation">
+                    <button class="inline-block p-4 border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300" id="settings-tab<%= trades[i]._id %>" data-tabs-target="#settings<%= trades[i]._id %>" type="button" role="tab" aria-controls="settings" aria-selected="false">Sell Position</button>
+                </li>
+            </ul>
+        </div>
+        <div id="default-tab-content">
+            <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="profile<%= trades[i]._id %>" role="tabpanel" aria-labelledby="profile-tab">
+                <form 
+                action="/post/updateTrade/<%= trades[i]._id %>?_method=PUT"
+                method="POST"
+                >
+                <!-- FIRST ROW -->
+                <div class="flex flex-wrap">
+                    <!-- MARKET -->
+                    <div>
+                        <label class="block text-xl text-left mb-2" for="updatedMarket">Market</label>
+                        <select name="updatedMarket" id="updatedMarket" class="select select-bordered mr-2" required>
+                            <option selected disabled><%= trades[i].market.toUpperCase() %></option>
+                            <option value="stock">STOCK</option>
+                            <option value="option">OPTION</option>
+                            <option value="crypto">CRYPTO</option>
+                            <option value="futures">FUTURES</option>
+                            <option value="forex">FOREX</option>
+                            <option value="index">INDEX</option>
+                        </select>
+                    </div>
+
+                    <!-- BUY DATE -->
+                    <div>
+                        <label class="block text-xl text-left mb-2 mx-2" for="updatedPurchaseDate">Initial Purchase Date</label>
+                        <input class="p-2 input mx-2" type="datetime-local" name="updatedPurchaseDate" id="updatedPurchaseDate" value="<%= trades[i].initialPurchaseDate.toISOString().slice(0, 16) %>" required>
+                    </div>
+
+                    <!-- SYMBOL -->
+                    <div>
+                        <label class="block text-xl text-left mb-2 mx-2" for="updatedSymbol">Symbol</label>
+                        <input type="text" class="uppercase input input-bordered p-2 mx-2 rounded-lg" name="updatedSymbol" id="updatedSymbol" value="<%= trades[i].symbol %>" required>
+                    </div>
+
+                    <!-- DIRECTION -->
+                    <div>
+                        <label class="block text-xl text-left mb-2 mx-2" for="updatedDirection">Direction</label>
+                        <select name="updatedDirection" id="updatedDirection" class="select select-bordered mx-2" required>
+                            <option selected disabled><%= trades[i].direction.toUpperCase() %></option>
+                            <option value="up">UP</option>
+                            <option value="down">DOWN</option>
+                            <option value="chop">CHOP</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- SECOND ROW -->
+                <div class="flex flex-wrap my-4">
+                    <!-- ENTRY PRICE -->
+                    <div>
+                        <label class="block text-xl text-left mb-2" for="updatedPurchasePrice">Initial Purchase Price</label>
+                        <input class="input input-bordered p-2 mr-2" type="number" name="updatedPurchasePrice" id="updatedPurchasePrice" step=".01" value="<%= trades[i].initialPurchasePrice %>" required>
+                    </div>
+
+                    <!-- STOP LOSS -->
+                    <div>
+                        <label class="block text-xl text-left mb-2 mx-2" for="updatedStopLoss">Stop Loss</label>
+                        <input class="input input-bordered p-2 mx-2" type="number" name="updatedStopLoss" id="updatedStopLoss" step=".01" value="<%= trades[i].transactions[trades[i].transactions.length - 1].stopLoss %>" required>
+                    </div>
+
+                    <!-- QUANTITY -->
+                    <div>
+                        <label class="block text-xl text-left mb-2 mx-2" for="updatedQuantity">Quantity</label>
+                        <input class="input input-bordered p-2 mx-2" type="number" name="updatedQuantity" id="updatedQuantity" step=".01" value="<%= trades[i].quantity %>" required>
+                    </div>
+                </div>
+
+                <!-- NOTES -->
+                <div>
+                    <h3 class="text-xl">Notes</h3>
+                    <textarea name="updatedNotes" id="updatedNotes" rows="5" class="my-3 p-2 textarea textarea-bordered textarea-lg w-full"><%= trades[i].notes %></textarea>
+                </div>
+
+                <!-- SAVE -->
+                <div class="flex justify-end my-2">
+                    <button class="btn rounded-lg px-10 items-center bg-blue-500 text-xl font-bold text-white" type="submit">Update</button>
+                </div>
+                </form>
+            </div>
+            <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="dashboard<%= trades[i]._id %>" role="tabpanel" aria-labelledby="dashboard-tab">
+                <form 
+                action="/post/addToPosition/<%= trades[i]._id %>?_method=PUT"
+                method="POST"
+                >
+                <!-- FIRST ROW -->
+                <div class="my-4 flex flex-wrap">    
+                    <!-- BUY DATE -->
+                    <div>
+                        <label class="block text-xl text-left mb-2 mx-2" for="addedPurchaseDate">Purchase Date</label>
+                        <input class="p-2 input mx-2" type="datetime-local" name="addedPurchaseDate" id="addedPurchaseDate" value="<%= trades[i].initialPurchaseDate.toISOString().slice(0, 16) %>" required>
+                    </div>
+                </div>
+
+                <!-- SECOND ROW -->
+                <div class="flex flex-wrap my-4">
+                    <!-- ENTRY PRICE -->
+                    <div>
+                        <label class="block text-xl text-left mb-2" for="addedPurchasePrice">Purchase Price</label>
+                        <input class="input input-bordered p-2 mr-2" type="number" name="addedPurchasePrice" id="addedPurchasePrice" step=".01" value="<%= trades[i].initialPurchasePrice %>" required>
+                    </div>
+
+                    <!-- STOP LOSS -->
+                    <div>
+                        <label class="block text-xl text-left mb-2 mx-2" for="addedStopLoss">Stop Loss</label>
+                        <input class="input input-bordered p-2 mx-2" type="number" name="addedStopLoss" id="addedStopLoss" step=".01" value="<%= trades[i].transactions[trades[i].transactions.length - 1].stopLoss %>" required>
+                    </div>
+
+                    <!-- QUANTITY -->
+                    <div>
+                        <label class="block text-xl text-left mb-2 mx-2" for="addedQuantity">Quantity</label>
+                        <input class="input input-bordered p-2 mx-2" type="number" name="addedQuantity" id="addedQuantity" step=".01" value="<%= trades[i].quantity %>" required>
+                    </div>
+                </div>
+
+                <!-- NOTES -->
+                <div>
+                    <h3 class="text-xl">Notes</h3>
+                    <textarea name="addedNotes" id="addedNotes" rows="5" class="my-3 p-2 textarea textarea-bordered textarea-lg w-full"><%= trades[i].notes %></textarea>
+                </div>
+
+                <!-- SAVE -->
+                <div class="flex justify-end my-2">
+                    <button class="btn rounded-lg px-10 items-center bg-blue-500 text-xl font-bold text-white" type="submit">Add To Position</button>
+                </div>
+                </form>
+            </div>
+            <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="settings<%= trades[i]._id %>" role="tabpanel" aria-labelledby="settings-tab">
+                <form 
+                action="/post/sellPosition/<%= trades[i]._id %>?_method=PUT"
+                method="POST"
+                >
+                <!-- FIRST ROW -->
+                <div class="my-4 flex flex-wrap">    
+                    <!-- SOLD DATE -->
+                    <div>
+                        <label class="block text-xl text-left mb-2 mx-2" for="sellDate">Sell Date</label>
+                        <input class="p-2 input mx-2" type="datetime-local" name="sellDate" id="sellDate" value="<%= trades[i].initialPurchaseDate.toISOString().slice(0, 16) %>" required>
+                    </div>
+                </div>
+
+                <!-- SECOND ROW -->
+                <div class="flex my-4 flex-wrap">
+                    <!-- ENTRY PRICE -->
+                    <div>
+                        <label class="block text-xl text-left mb-2" for="sellPrice">Sell Price</label>
+                        <input class="input input-bordered p-2 mr-2" type="number" name="sellPrice" id="sellPrice" step=".01" value="<%= trades[i].initialPurchasePrice %>" required>
+                    </div>
+
+                    <!-- STOP LOSS -->
+                    <div>
+                        <label class="block text-xl text-left mb-2 mx-2" for="sellStopLoss">Stop Loss</label>
+                        <input class="input input-bordered p-2 mx-2" type="number" name="sellStopLoss" id="sellStopLoss" step=".01" value="<%= trades[i].transactions[trades[i].transactions.length - 1].stopLoss %>" required>
+                    </div>
+
+                    <!-- QUANTITY -->
+                    <div>
+                        <label class="block text-xl text-left mb-2 mx-2" for="sellQuantity">Quantity</label>
+                        <input class="input input-bordered p-2 mx-2" type="number" name="sellQuantity" id="sellQuantity" step=".01" value="<%= trades[i].quantity %>" required>
+                    </div>
+                </div>
+
+                <!-- NOTES -->
+                <div>
+                    <h3 class="text-xl">Notes</h3>
+                    <textarea name="sellNotes" id="sellNotes" rows="5" class="my-3 p-2 textarea textarea-bordered textarea-lg w-full"><%= trades[i].notes %></textarea>
+                </div>
+
+                <!-- SAVE -->
+                <div class="flex justify-end my-2">
+                    <button class="btn rounded-lg px-10 items-center bg-blue-500 text-xl font-bold text-white" type="submit">Sell Position</button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dialog id="updateTradeModal<%= trades[i]._id %>" class="modal">
+    <!-- to close the modal -->
+    <section class="flex justify-between items-center">
+        <h3 class="font-bold text-2xl">Update Trade</h3>
+        <form method="dialog">
+            <button class="btn btn-sm btn-circle btn-ghost text-red-500">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>                  
+            </button>
+        </form>
+    </section>
+    <!-- header -->
+    <div class="mb-4 border-b border-gray-200 dark:border-gray-700">
+        <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" id="default-tab" data-tabs-toggle="#default-tab-content" role="tablist">
+            <li class="me-2" role="presentation">
+                <button class="inline-block p-4 border-b-2 rounded-t-lg" id="profile-tab" data-tabs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Update Position</button>
+            </li>
+            <li class="me-2" role="presentation">
+                <button class="inline-block p-4 border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300" id="dashboard-tab" data-tabs-target="#dashboard" type="button" role="tab" aria-controls="dashboard" aria-selected="false">Add to Position</button>
+            </li>
+            <li class="me-2" role="presentation">
+                <button class="inline-block p-4 border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300" id="settings-tab" data-tabs-target="#settings" type="button" role="tab" aria-controls="settings" aria-selected="false">Sell Position</button>
+            </li>
+        </ul>
+    </div>
+    <!-- end of header -->
+
+    <!-- tab content -->
+        <div id="default-tab-content">
+            <div class="hidden p-4 rounded-lg" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+
+            </div>
+            <div class="hidden p-4 rounded-lg" id="dashboard" role="tabpanel" aria-labelledby="dashboard-tab">
+
+            </div>
+            <div class="hidden p-4 rounded-lg" id="settings" role="tabpanel" aria-labelledby="settings-tab">
+
+            </div>
+        </div>
+</dialog>

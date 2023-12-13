@@ -1,0 +1,68 @@
+<!-- dashboard sidebar -->
+<aside id="logo-sidebar" class="fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700" aria-label="Sidebar">
+  <div class="h-full px-3 pb-4 overflow-y-auto bg-white dark:bg-gray-800">
+
+    <!-- ACCOUNT BALANCE -->
+     <section class="text-white pb-2">
+       <span class="font-semibold text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 flex justify-center">Account Balance</span>
+       <div class="flex justify-center items-center">
+         <span class="text-xl text-blue-500 m-2 font-bold block inline-flex justify-center"><span>$</span><%= user.accountBalance.toLocaleString() %></span>
+         <button onclick="updateBalance.showModal()" class="inline-flex justify-center">
+           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+             <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+           </svg> 
+         </button>
+       </div>
+      </section>
+
+     <!-- JOURNAL CONTROLS -->
+     <section class="border-y border-gray-700 py-2">
+      <div class="flex justify-center items-center">
+        <button type="button" class="btn btn-md font-semibold bg-green-500 rounded-full text-gray-50 p-3 my-1 flex items-center opacity-90 hover:bg-green-700" onclick="addTradeModal.showModal()">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>              
+          <span>New Trade</span>
+        </button>
+      </div>
+     </section>
+
+     <!-- CHART SEARCH
+     <section class="my-4">
+         <h2 class="text-center font-semibold my-2 text-white">Chart Search</h2>
+         <div class="join">
+            <input id="searchInput" class="input input-bordered join-item input-md w-40" placeholder="ex: AAPL"/>
+            <button id="searchBtn" data-modal-target="dailyModal" data-modal-toggle="dailyModal" class="btn btn-md join-item rounded-r-full">Search</button>
+         </div>
+     </section> -->
+
+     <!-- NAV LINKS -->
+     <ul class="pt-2 space-y-2 font-medium">
+        <li>
+           <a href="/dashboard" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+              <svg class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 21">
+                 <path d="M16.975 11H10V4.025a1 1 0 0 0-1.066-.998 8.5 8.5 0 1 0 9.039 9.039.999.999 0 0 0-1-1.066h.002Z"/>
+                 <path d="M12.5 0c-.157 0-.311.01-.565.027A1 1 0 0 0 11 1.02V10h8.975a1 1 0 0 0 1-.935c.013-.188.028-.374.028-.565A8.51 8.51 0 0 0 12.5 0Z"/>
+              </svg>
+              <span class="ms-3">Dashboard</span>
+           </a>
+        </li>
+        <li>
+           <a href="/news" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+              <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                 <path d="m17.418 3.623-.018-.008a6.713 6.713 0 0 0-2.4-.569V2h1a1 1 0 1 0 0-2h-2a1 1 0 0 0-1 1v2H9.89A6.977 6.977 0 0 1 12 8v5h-2V8A5 5 0 1 0 0 8v6a1 1 0 0 0 1 1h8v4a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-4h6a1 1 0 0 0 1-1V8a5 5 0 0 0-2.582-4.377ZM6 12H4a1 1 0 0 1 0-2h2a1 1 0 0 1 0 2Z"/>
+              </svg>
+              <span class="flex-1 ms-3 whitespace-nowrap">News</span>
+           </a>
+        </li>
+        <li>
+           <a href="/logout" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+              <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 16">
+                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 8h11m0 0L8 4m4 4-4 4m4-11h3a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-3"/>
+              </svg>
+              <span class="flex-1 ms-3 whitespace-nowrap">Log Out</span>
+           </a>
+        </li>
+     </ul>
+  </div>
+</aside>

@@ -1,0 +1,43 @@
+<!-- main dashboard -->
+
+<!-- dashboard header -->
+<%- include('partials/dashboardHeader') -%>
+
+<!-- sidebar modals -->
+<%- include('partials/addTradeModal') -%>
+<%- include('partials/updateBalanceModal') -%>
+
+<!-- sidebar -->
+<%- include('partials/sidebar', { user: user }) -%>
+
+<!-- main modals -->
+<!-- main section -->
+<main id="mainContainer" class="p-4 sm:ml-64 h-full flex items-center justify-center">
+  <div class="rounded-lg flex justify-center items-center h-full">
+    <!-- news api heading -->
+    <section id="newsContainer" class="flex-col">
+        <section>
+            <!-- news api heading -->
+            <h2 class="mb-5 text-2xl">Get The Latest Headlines</h2>
+        </section>
+        <!-- user input -->
+        <section class="userInput flex items-center">
+            <input class="input" type="text" placeholder="ex: 'AAPL'" id="stockInput">
+            <button class="submitBtn btn">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+                </svg>                               
+            </button>
+        </section>
+        <!-- container for news articles -->
+        <section id="headingSection">
+        </section>
+        <section id="articlesContainer" class="flex flex-col md:flex-row text-center md:text-left">
+        </section>
+    </section>
+  </div>
+</main>
+
+<!-- footer -->
+<%- include('partials/dashboardFooter') -%>
+<script src="/js/news.js"></script>

@@ -23,13 +23,28 @@ connectDB()
 // Initialize Express app
 const app = express()
 
+// for production
 // Static folder
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-app.use(express.static(path.join(__dirname, 'build')));
+app.use(express.static(path.join(__dirname, 'v2')));
+
+// for development
+// Static folder
+// app.use(express.static("public"))
 
 // Body parsing
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
+
+// Cors errors
+// app.use(
+//   cors({
+//     origin: "http://localhost:3000/", // Allow requests only from port 3000 (NEED TO CHANGE WHEN WE HOST TO FE URL)
+//     methods: "GET,POST,PUT,DELETE", // Allow specific HTTP methods
+//     credentials: true,
+//     allowedHeaders: ["Content-Type", "Authorization"] // Allow specific headers
+//   })
+// )
 
 // Logging
 app.use(logger("dev"))
@@ -61,8 +76,11 @@ app.use(flash())
 // Routes for which server is listening
 app.use("/", mainRoutes)
 
+// Serve React app
+// app.use(express.static("client/build"))
+
 app.get('*', (req, res) =>{
-  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+  res.sendFile(path.join(__dirname, 'v2', 'index.html'));
 });
 
 // Server running

@@ -26,7 +26,7 @@ const app = express()
 // for production
 // Static folder
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-app.use(express.static(path.join(__dirname, 'v2')));
+app.use(express.static(path.join(__dirname, 'v3')));
 
 // for development
 // Static folder
@@ -80,7 +80,7 @@ app.use("/", mainRoutes)
 // app.use(express.static("client/build"))
 
 app.get('*', (req, res) =>{
-  res.sendFile(path.join(__dirname, 'v2', 'index.html'));
+  res.sendFile(path.join(__dirname, 'v3', 'index.html'));
 });
 
 // Server running

@@ -97,18 +97,24 @@ export const postSignup = async (req, res, next) => {
   })
 
   try {
-    const existingUser = await User.findOne({ email: req.body.email })
-    if (existingUser) {
+    const existingEmail = await User.findOne({ email: req.body.email })
+    if (existingEmail) {
       return res
         .status(409)
         .json({ error: "Account with that email address already exists." })
     }
 
+    const existingUser = await User.findOne({ userName: req.body.userName })
+    if (existingUser) {
+      return res
+        .status(409)
+        .json({ error: "That username is already taken." })
+    }
+
     const newUser = new User({
       email: req.body.email,
       password: req.body.password,
-      firstName: req.body.firstName,
-      lastName: req.body.lastName
+      userName: req.body.userName,
     })
 
     await newUser.save()

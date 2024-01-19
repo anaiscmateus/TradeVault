@@ -9,7 +9,8 @@ import { connectDB } from "./config/database.js"
 import dotenv from "dotenv";
 import path from "path";
 import passport from "passport";
-import { router as mainRoutes } from "./routes/main.js"
+import { router as postRoutes } from "./routes/posts.js"
+import { router as authRoutes } from "./routes/auth.js"
 import { configurePassport } from "./config/passport.js"
 import cors from "cors"
 import { fileURLToPath } from 'url';
@@ -26,7 +27,7 @@ const app = express()
 // for production
 // Static folder
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-app.use(express.static(path.join(__dirname, 'v3')));
+app.use(express.static(path.join(__dirname, 'v4')));
 
 // for development
 // Static folder
@@ -74,13 +75,14 @@ app.use(passport.session())
 app.use(flash())
 
 // Routes for which server is listening
-app.use("/", mainRoutes)
+app.use("/", postRoutes)
+app.use("/auth", authRoutes)
 
 // Serve React app
 // app.use(express.static("client/build"))
 
 app.get('*', (req, res) =>{
-  res.sendFile(path.join(__dirname, 'v3', 'index.html'));
+  res.sendFile(path.join(__dirname, 'v4', 'index.html'));
 });
 
 // Server running

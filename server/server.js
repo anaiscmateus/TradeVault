@@ -9,7 +9,7 @@ import { connectDB } from "./config/database.js"
 import dotenv from "dotenv";
 import path from "path";
 import passport from "passport";
-import { router as postRoutes } from "./routes/posts.js"
+import { router as tradeRoutes } from "./routes/trades.js"
 import { router as authRoutes } from "./routes/auth.js"
 import { configurePassport } from "./config/passport.js"
 import cors from "cors"
@@ -27,11 +27,11 @@ const app = express()
 // for production
 // Static folder
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-app.use(express.static(path.join(__dirname, 'v4')));
+app.use(express.static(path.join(__dirname, 'v5')));
 
 // for development
 // Static folder
-// app.use(express.static("public"))
+app.use(express.static("public"))
 
 // Body parsing
 app.use(express.urlencoded({ extended: true }))
@@ -75,14 +75,14 @@ app.use(passport.session())
 app.use(flash())
 
 // Routes for which server is listening
-app.use("/", postRoutes)
-app.use("/auth", authRoutes)
+app.use("/api/trade", tradeRoutes)
+app.use("/api/auth", authRoutes)
 
 // Serve React app
 // app.use(express.static("client/build"))
 
 app.get('*', (req, res) =>{
-  res.sendFile(path.join(__dirname, 'v4', 'index.html'));
+  res.sendFile(path.join(__dirname, 'v5', 'index.html'));
 });
 
 // Server running

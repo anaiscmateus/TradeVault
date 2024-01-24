@@ -5,7 +5,8 @@ import {
   postLogin,
   logout,
   getSignup,
-  postSignup
+  postSignup,
+  updateBalance
 } from "../controllers/auth.js"
 import { ensureAuth } from "../middleware/auth.js"
 
@@ -17,5 +18,6 @@ router.post("/login", postLogin)
 router.get("/logout", logout)
 router.get("/signup", getSignup)
 router.post("/signup", postSignup)
+router.post("/updateBalance", updateBalance)
 
 export { router }

@@ -27,11 +27,11 @@ const app = express()
 // for production
 // Static folder
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-app.use(express.static(path.join(__dirname, 'v5')));
+app.use(express.static(path.join(__dirname, 'v6')));
 
 // for development
 // Static folder
-app.use(express.static("public"))
+// app.use(express.static("public"))
 
 // Body parsing
 app.use(express.urlencoded({ extended: true }))
@@ -82,7 +82,7 @@ app.use("/api/auth", authRoutes)
 // app.use(express.static("client/build"))
 
 app.get('*', (req, res) =>{
-  res.sendFile(path.join(__dirname, 'v5', 'index.html'));
+  res.sendFile(path.join(__dirname, 'v6', 'index.html'));
 });
 
 // Server running

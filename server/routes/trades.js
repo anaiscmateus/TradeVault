@@ -7,6 +7,7 @@ import {
   sellTradePosition,
   deleteTrade,
   openaiFeedback,
+  fetchNews
 } from "../controllers/trades.js";
 
 const router = express.Router();
@@ -17,6 +18,7 @@ router.post("/trades/feedback", openaiFeedback);
 
 // READ
 router.get("/trades", fetchAllTrades);
+router.get("/:symbol/news", fetchNews);
 
 // UPDATE
 router.put("/trades/:id/position/add", addTradePosition);

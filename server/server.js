@@ -27,7 +27,7 @@ const app = express()
 // for production
 // Static folder
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-app.use(express.static(path.join(__dirname, 'v7')));
+app.use(express.static(path.join(__dirname, 'v8')));
 
 // for development
 // Static folder
@@ -82,7 +82,7 @@ app.use("/api/auth", authRoutes)
 // app.use(express.static("client/build"))
 
 app.get('*', (req, res) =>{
-  res.sendFile(path.join(__dirname, 'v7', 'index.html'));
+  res.sendFile(path.join(__dirname, 'v8', 'index.html'));
 });
 
 // Server running

@@ -4,6 +4,8 @@ import { User } from "../models/User.js";
 import OpenAI from "openai";
 import pkg from "mongodb";
 const { ObjectID } = pkg;
+import dotenv from "dotenv";
+dotenv.config({ path: "./config/.env" });
 
 // add new trade
 export const createTrade = async (req, res) => {
@@ -69,7 +71,7 @@ export const fetchAllTrades = async (req, res) => {
   try {
     // fetch all trades
     const trades = await Trade.find({ user: req.user.id }).sort(
-      "-initialPurchaseDate"
+      "initialPurchaseDate"
     );
 
     let cumulativePnL = 0; // Initialize a variable to track cumulative P&L
@@ -94,12 +96,14 @@ export const fetchAllTrades = async (req, res) => {
     };
 
     const chartData = trades.map((trade) => {
-      cumulativePnL += trade.returnAmount; // Update the cumulative P&L
+      if (!trade.open) {
+        cumulativePnL += trade.returnAmount; // Update the cumulative P&L
 
-      return {
-        date: trade.initialPurchaseDate.toISOString().split("T")[0], // Format date
-        cumulativePnL: cumulativePnL,
-      };
+        return {
+          date: trade.initialPurchaseDate.toISOString().split("T")[0], // Format date
+          cumulativePnL: cumulativePnL,
+        };
+      }
     });
 
     chartData.sort((a, b) => new Date(a.date) - new Date(b.date));
@@ -142,7 +146,7 @@ export const addTradePosition = async (req, res) => {
     trade.quantity += transaction.quantity;
     trade.position += transaction.total;
     trade.stopLoss = transaction.stopLoss;
-    // Add any logic for updating trade.notes if needed
+    trade.notes = req.body.notes;
 
     user.accountBalance -= totalCost;
 
@@ -200,7 +204,7 @@ export const sellTradePosition = async (req, res) => {
     trade.position = remainingPosition;
 
     trade.stopLoss = req.body.stopLoss;
-    trade.notes = req.body.sellNotes;
+    trade.notes = req.body.notes;
 
     if (trade.quantity <= 0) {
       trade.open = false;
@@ -305,5 +309,27 @@ export const openaiFeedback = async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).send({ message: "Error processing trades" });
+  }
+};
+
+export const fetchNews = async (req, res) => {
+  try {
+    const key = process.env.ALPHA_VANTAGE_KEY;
+    const symbol = req.params.symbol;
+    const url = `https://www.alphavantage.co/query?function=NEWS_SENTIMENT&tickers=${symbol}&sort=LATEST&limit=4&apikey=${key}`;
+
+    const response = await fetch(url, {
+      headers: { "User-Agent": "node-fetch" },
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    res.json(data);
+  } catch (err) {
+    console.error("Error:", err);
+    res.status(500).send("Server error");
   }
 };

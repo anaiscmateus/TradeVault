@@ -1,3 +1,4 @@
+// Trade.js
 import mongoose from "mongoose";
 
 const TradeSchema = new mongoose.Schema({

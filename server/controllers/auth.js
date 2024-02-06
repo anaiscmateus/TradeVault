@@ -1,3 +1,4 @@
+// auth.js
 import passport from "passport";
 import validator from "validator";
 import { User } from "../models/User.js";

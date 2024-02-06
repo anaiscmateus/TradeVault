@@ -1,3 +1,4 @@
+// trade.js
 import express from "express";
 import { upload } from "../middleware/multer.js";
 import {

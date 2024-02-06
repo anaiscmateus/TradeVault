@@ -1,3 +1,4 @@
+// trades.js
 import { cloudinary } from "../middleware/cloudinary.js";
 import { Trade } from "../models/Trade.js";
 import { User } from "../models/User.js";
